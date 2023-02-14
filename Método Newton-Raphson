@@ -1,0 +1,32 @@
+import sympy as sp
+from math import *
+
+print('\nPrograma Método de Newton-Raphson ')
+print('La tolerancia es de 0.0001')
+tol = 0.0001
+x0 = float(input('\nDigite el valor de Xn: '))
+
+
+def NewtonRaphson(x0, tol, n):
+    x = sp.symbols('x')  # crea la variable x
+    f = input('Digite la función con variable x: ')
+    df = sp.diff(f)  # calcula la derivada de la funcion
+    # Paso 1: evaluar simbolicamente
+    # Creacion de las funciones f y df de manera simbolica
+    f = sp.lambdify(x, f)
+    df = sp.lambdify(x, df)
+    # paso 2 usar un estimado inicial de la raiz xi y utilizar este valor para estimar el nuevo estimado xi+1
+    for k in range(n):
+        x1 = x0 - f(x0) / df(x0)
+        # paso 3 Evaluar el error relativo absoluto aproximado
+        Error_relativo = abs(x1 - x0)
+        # paso 4 Comparar el error con  la tolerancia pre establecida
+        if Error_relativo < tol:
+            print('x', k + 1, '=', f'{x1:.5f}')
+            print('La solucion aproximada de la raiz es', f'{x1:.5f}')
+            return
+        x0 = x1
+        print('x', k + 1, '=', f'{x1:.5f}')
+
+
+NewtonRaphson(x0, tol, 40)
