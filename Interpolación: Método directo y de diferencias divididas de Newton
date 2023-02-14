@@ -1,0 +1,166 @@
+# PROGRAMA SOBRE INTERPOLACIÓN: MÉTODO DIRECTO Y DE DIFERENCIAS DIVIDIDAS DE NEWTON
+
+# Librerías
+import sympy as sym
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Menú de opciones
+print('\nINTERPOLACIÓN: MÉTODO DIRECTO Y DE DIFERENCIAS DIVIDIDAS DE NEWTON')
+print('\nMENÚ DE OPCIONES')
+print('Digite [1] - Interpolación por método directo (Sistema de ecuaciones)')
+print('Digite [2] - Interpolación por diferencias divididas de Newton')
+opcion = int(input('\nSeleccione la opción requerida: '))
+
+
+def ingresarCoordenadas():
+    x = []
+    y = []
+    n = (int(input("\nIngrese el grado del polinomio: "))) + 1
+    for i in range(n):
+        vx = float(input("Ingresa x{}: ".format(i + 1)))
+        x.append(vx)
+        vy = float(input("Ingresa y{}: ".format(i + 1)))
+        y.append(vy)
+    return x, y
+
+
+# MÉTODO DIRECTO =======================================================================================================
+if opcion == 1:
+    print('Interpolacion Metodo Directo')
+
+
+    # procedimiento
+    def SistEcuaciones():
+        xi, fi = ingresarCoordenadas()
+        xEvaluar = float(input('\nDigite el valor de x a evaluar: '))
+
+        xi = np.array(xi)
+        fxi = np.array(fi)
+        n = len(xi)
+        x = sym.Symbol('x')
+        polinomio = 0
+        # mostrar valores
+        Matriz = np.zeros(shape=(n, n), dtype=float)
+
+        for i in range(0, n, 1):
+            for j in range(0, n, 1):
+                potencia = (n - 1) - j
+                Matriz[i, j] = xi[i] ** potencia
+
+        coeficiente = np.linalg.solve(Matriz, fxi)
+
+        for i in range(0, n):
+            potencia = (n - 1) - i
+            termino = coeficiente[i] * (x ** potencia)
+            polinomio = polinomio + termino
+        px = sym.lambdify(x, polinomio)
+
+        print('\nEl polinomio obtenido es: \n', polinomio)
+
+        print('\nSe evalúa el polinomio en:\n' + ' X=' + str(xEvaluar) + '; Y=' + str(px(xEvaluar)))
+
+        # Gráfica
+        a = np.min(xi)
+        b = np.max(xi)
+        xin = np.linspace(a, b, 101)
+        yin = px(xin)
+        plt.xlabel('xi')
+        plt.ylabel('fi')
+        plt.plot(xi, fi, 'o', label='[xi,fi]')
+        plt.plot(xin, yin, label='p(x)')
+        plt.plot(xEvaluar, px(xEvaluar), '*', label='Evaluación del punto')
+        plt.legend()
+        plt.title('Método directo')
+        plt.show()
+
+
+    SistEcuaciones()
+    print('\nFIN DE LA INTERPOLACIÓN POR EL MÉTODO DIRECTO')
+
+# DIFERENCIAS DIVIDIDAS DE NEWTON ======================================================================================
+if opcion == 2:
+    print('Interpolacion Metodo de newton')
+
+
+    def DifDivididas():
+        # INGRESO , Datos de prueba
+        coordenadas = ingresarCoordenadas()
+        xEvaluar = float(input('\nDigite el valor de x a evaluar: '))
+        xi = np.array(coordenadas[0])
+        fi = np.array(coordenadas[1])
+
+        # Tabla de Diferencias Divididas
+        titulo = ['i   ', 'xi  ', 'fi  ']
+        n = len(xi)
+        ki = np.arange(0, n, 1)
+        tabla = np.concatenate(([ki], [xi], [fi]), axis=0)
+        tabla = np.transpose(tabla)
+
+        # diferencias divididas vacía
+        dfinita = np.zeros(shape=(n, n), dtype=float)
+        tabla = np.concatenate((tabla, dfinita), axis=1)
+
+        # Cálculo tabla, inicia en columna 3
+        [n, m] = np.shape(tabla)
+        diagonal = n - 1
+        j = 3
+        while j < m:
+            titulo.append('F[' + str(j - 2) + ']')
+            i = 0
+            paso = j - 2  # inicia en 1
+            while i < diagonal:
+                denominador = (xi[i + paso] - xi[i])
+                numerador = tabla[i + 1, j - 1] - tabla[i, j - 1]
+                tabla[i, j] = numerador / denominador
+                i = i + 1
+            diagonal = diagonal - 1
+            j = j + 1
+
+        # POLINOMIO con diferencias Divididas
+        # caso: puntos equidistantes en eje x
+        dDividida = tabla[0, 3:]
+        n = len(dfinita)
+
+        # expresión del polinomio con Sympy
+        x = sym.Symbol('x')
+        polinomio = fi[0]
+        for j in range(1, n, 1):
+            factor = dDividida[j - 1]
+            termino = 1
+            for k in range(0, j, 1):
+                termino = termino * (x - xi[k])
+            polinomio = polinomio + termino * factor
+        # siplificar el polinomio
+        polisimple = polinomio.expand()
+        # Polinomio con sympy evaludado numéricamente
+        px = sym.lambdify(x, polisimple)
+
+        np.set_printoptions(precision=4)
+        print('\nTabla Diferencias Divididas')
+        print([titulo][0])
+        print(tabla)
+        print('\nDiferencias Dividida: ')
+        print(dDividida)
+        print('\nPolinomio simplificado: ')
+        print(polisimple)
+        print('\nSe evalúa el polinomio en:\n' + ' X=' + str(xEvaluar) + '; Y=' + str(px(xEvaluar)))
+
+        # Gráfica
+        muestras = 101
+        a = np.min(xi)
+        b = np.max(xi)
+        pxi = np.linspace(a, b, muestras)
+        pfi = px(pxi)
+        plt.plot(xi, fi, 'o', label='Puntos')
+        plt.plot(pxi, pfi, label='Polinomio')
+        plt.plot(xEvaluar, px(xEvaluar), '*', label='Evaluación del punto')
+        plt.legend()
+        plt.xlabel('xi')
+        plt.ylabel('fi')
+        plt.title('Diferencias divididas de Newton')
+        plt.show()
+
+
+    DifDivididas()
+    print('\nFIN DE LA INTERPOLACIÓN POR DIFERENCIAS DIVIDIDAS DE NEWTON')
