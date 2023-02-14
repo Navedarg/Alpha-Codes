@@ -1,0 +1,212 @@
+# Operaciones Básicas con Matrices (Con Librerías)
+
+import numpy as np
+
+print('\nMENÚ DE OPERACIONES')
+print('Digite[1] - Suma de matrices')
+print('Digite[2] - Resta de matrices')
+print('Digite[3] - Multiplicación por un escalar')
+print('Digite[4] - Cálculo de la traspuesta')
+print('Digite[5] - Cálculo del determinante')
+print('Digite[6] - Cálculo de la inversa')
+opcion = int(input('\nSeleccione la operación a realizar:  '))
+
+# Suma de matrices =====================================================================================================
+if opcion == 1:
+    print('\nSUMA DE MATRICES')
+    filas = int(input('Ingrese el número de filas:  '))
+    columnas = int(input('Ingrese el número de columnas:  '))
+    Matriz_A = np.empty((filas, columnas))
+    Matriz_B = np.empty((filas, columnas))
+    Matriz_C = np.empty((filas, columnas))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i][j] = dato
+    print('\nMATRIZ B: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_B[i][j] = dato
+            Matriz_C[i][j] = Matriz_A[i][j] + Matriz_B[i][j]
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nMATRIZ B: ')
+    for fila in Matriz_B:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nLa suma entre la Matriz A y la Matriz B es:')
+    for fila in Matriz_C:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nFin de la suma de matrices ')
+
+# Resta de matrices=====================================================================================================
+if opcion == 2:
+    print('\nRESTA DE MATRICES')
+    filas = int(input('Ingrese el número de filas:  '))
+    columnas = int(input('Ingrese el número de columnas:  '))
+    Matriz_A = np.empty((filas, columnas))
+    Matriz_B = np.empty((filas, columnas))
+    Matriz_C = np.empty((filas, columnas))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i][j] = dato
+    print('\nMATRIZ B: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_B[i][j] = dato
+            Matriz_C[i][j] = Matriz_A[i][j] - Matriz_B[i][j]
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nMATRIZ B: ')
+    for fila in Matriz_B:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nLa resta entre la Matriz A y la Matriz B es:')
+    for fila in Matriz_C:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nFin de la resta de matrices ')
+
+# Multiplicación por un escalar=========================================================================================
+if opcion == 3:
+    print('\nMULTIPLICACIÓN POR UN ESCALAR')
+    filas = int(input('ingrese el número de filas:  '))
+    columnas = int(input('Ingrese el número de columnas:  '))
+    escalar = int(input('Ingrese el escalar  '))
+    Matriz_A = np.empty((filas, columnas))
+    E = np.empty((filas, columnas))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i][j] = dato
+            E[i][j] = Matriz_A[i][j] * escalar
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nLa multiplicación de la Matriz A por el escalar', escalar, 'es:')
+    for fila in E:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nFin de la multiplicación por un escalar ')
+
+# Traspuesta de una matriz==============================================================================================
+if opcion == 4:
+    print('\nTRASPUESTA DE UNA MATRIZ')
+    filas = int(input('Ingrese el número de filas:  '))
+    columnas = int(input('Ingrese el número de columnas:  '))
+    Matriz_A = np.empty((filas, columnas))
+    T = np.empty((filas, columnas))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i][j] = dato
+            T[j][i] = dato
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nLa traspuesta de la Matriz A es:')
+    for fila in T:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    print('\nFin del cálculo de la traspuesta')
+
+# Determinante de una Matriz============================================================================================
+if opcion == 5:
+    print('\nDETERMINANTE DE UNA MATRIZ')
+    ordendeterminante = int(input('Ingrese el orden del determinante:  '))
+    filas = ordendeterminante
+    columnas = ordendeterminante
+    Matriz_A = np.empty((filas, columnas))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        for j in range(columnas):
+            dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i][j] = dato
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:8.2f}'.format(elemento), end='')
+        print(']')
+    n_array = np.array(Matriz_A)
+    print('\nEl determinante de la Matriz A es:')
+    det = np.linalg.det(n_array)
+    print('{:8.2f}'.format(det), end='')
+    print()
+    print('\nFin del cálculo del determinante de una matriz')
+
+# Inversa de una matriz=================================================================================================
+if opcion == 6:
+    print('\nINVERSA DE UNA MATRIZ')
+    filas = int(input('Ingrese el número de filas:  '))
+    columnas = int(input('Ingrese el número de columnas:  '))
+    Matriz_A = np.empty((filas, columnas))
+    while filas != columnas:
+        print('\nNota: Recuerde que solo las matrices cuadradas tienen inversa\n')
+        filas = int(input('Ingrese el número de filas:  '))
+        columnas = int(input('Ingrese el número de columnas:  '))
+    else:
+        print('\nMATRIZ A: ')
+        for i in range(filas):
+            for j in range(columnas):
+                dato = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+                Matriz_A[i][j] = dato
+        print('\nMATRIZ A: ')
+        for fila in Matriz_A:
+            print('[', end='')
+            for elemento in fila:
+                print('{:8.2f}'.format(elemento), end='')
+            print(']')
+        n_array = np.array(Matriz_A)
+        print('\nEl determinante es:')
+        det = np.linalg.det(n_array)
+        print('{:8.2f}'.format(det), end='')
+        print()
+        if det == 0:
+            print('\nUna matriz con determinante igual a cero, no puede ser inversible')
+        else:
+            n_array = np.array(Matriz_A)
+            print('\nLa inversa de la Matriz A es:')
+            inversa = np.linalg.inv(n_array)
+            for fila in inversa:
+                print('[', end='')
+                for elemento in fila:
+                    print('{:8.2f}'.format(elemento), end='')
+                print(']')
+            print()
+            print('Fin del cálculo de la inversa de una matriz ')
+# Fin del programa
