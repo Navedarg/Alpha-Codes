@@ -1,0 +1,54 @@
+print('\nSISTEMA DE ECUACIONES LINEALES, SOLUCIÓN MATRICIAL POR MÉTODO DE ELIMINACIÓN DE GAUSS')
+Matriz_A = []
+filas = int(input('\nIngrese la cantidad de ecuaciones del sistema:  '))
+columnas = int(input('Ingrese el total de coeficientes por ecuación, incluyendo el término independiente:  '))
+print('\nRecuerde que el último valor a ingresar por ecuación corresponde al término independiente')
+
+# Asignación de valores para la matriz
+print('\nCoeficientes y Términos Independientes')
+for i in range(filas):
+    Matriz_A.append([])
+    for j in range(columnas):
+        datos = float(input('Ecuación {}, x{}: '.format(i + 1, j)))
+        Matriz_A[i].append(datos)
+
+# Impresión de lo valores asignados para la matriz
+print('\nMATRIZ DEL SISTEMA')
+for fila in Matriz_A:
+    print('[', end='')
+    for elemento in fila:
+        print('{:7.1f}'.format(elemento), end='')
+    print(']')
+
+# Selección de términos independientes
+ind = columnas - 1
+independientes = [fila[ind] for fila in Matriz_A]
+print('\nLos términos independientes son:\n', independientes)
+
+orden = len(Matriz_A)
+
+# Recorrer la matriz
+for j in range(0, orden + 1):
+    for i in range(0, orden):
+        if i > j:
+            # Dividir los elementos de la matriz
+            division = Matriz_A[i][j] / Matriz_A[j][j]
+            for k in range(0, orden + 1):
+                # Obtener el nuevo valor para los elementos en la diagonal inferior
+                Matriz_A[i][k] = Matriz_A[i][k] - division * Matriz_A[j][k]
+
+# Resolución del sistema de ecuaciones
+x = [0, 0, 0]
+for i in range(orden, 0, -1):
+    suma = 0
+    for j in range(i, orden):
+        suma = suma + Matriz_A[i - 1][j] * x[j]
+    # Obtener los valores de las variables
+    x[i - 1] = ((Matriz_A[i - 1][orden] - suma) / Matriz_A[i - 1][i - 1])
+
+# Mostrar los valores de las variables
+print('\nLa solución al sistema de ecuaciones lineales es:')
+for i in range(0, orden):
+    print("x" + str(i) + " = " + '{:.2f}'.format(x[i]))
+
+print('\nFIN DE SISTEMA DE ECUACIONES LINEALES, SOLUCIÓN MATRICIAL POR MÉTODO DE ELIMINACIÓN DE GAUSS')
