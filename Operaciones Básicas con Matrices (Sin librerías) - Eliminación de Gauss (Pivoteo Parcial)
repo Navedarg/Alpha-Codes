@@ -1,0 +1,496 @@
+# Operaciones Básicas con Matrices (Sin librerías) - Eliminación de Gauss (Pivoteo Parcial)
+
+print('\nMENÚ DE OPERACIONES')
+print('Digite[1] - Suma de matrices')
+print('Digite[2] - Resta de matrices')
+print('Digite[3] - Multiplicación de matrices')
+print('Digite[4] - Multiplicación por un escalar')
+print('Digite[5] - Cálculo de la traspuesta')
+print('Digite[6] - Cálculo del determinante')
+print('Digite[7] - Cálculo de la inversa')
+opcion = int(input('\nSeleccione la operación a realizar: '))
+
+# Suma de matrices======================================================================================================
+if opcion == 1:
+    print('\nSUMA DE MATRICES')
+    Matriz_A = []
+    Matriz_B = []
+    Matriz_C = []
+    C = []
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+
+    # Asignación de valores para las matrices
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    print('\nMATRIZ B: ')
+    for i in range(filas):
+        Matriz_B.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_B[i].append(datos)
+
+    # Impresión de lo valores asignados en las matrices
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+    print('\nMATRIZ B: ')
+    for fila in Matriz_B:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Sumatoria de las matrices
+    def sumamatriz(A, B):
+        if len(A) == len(B) and len(A[0]) == len(B[0]):
+            for k in range(len(A)):
+                C.append([])
+                for f in range(len(A[0])):
+                    C[k].append(A[k][f] + B[k][f])
+            return C
+        else:
+            return None
+
+
+    Matriz_C = sumamatriz(Matriz_A, Matriz_B)
+    if Matriz_C is None:
+        print('\nLas matrices no se pueden sumar')
+    else:
+        print('\nLa suma entre la Matriz A y la Matriz B es: ')
+        for fila in Matriz_C:
+            print('[', end='')
+            for elemento in fila:
+                print('{:6.1f}'.format(elemento), end='')
+            print(']')
+
+    print('\nFin de la suma de matrices ')
+
+# Resta de matrices=====================================================================================================
+if opcion == 2:
+    print('\nRESTA DE MATRICES')
+    Matriz_A = []
+    Matriz_B = []
+    Matriz_C = []
+    C = []
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+
+    # Asignación de valores para las matrices
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    print('\nMATRIZ B: ')
+    for i in range(filas):
+        Matriz_B.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_B[i].append(datos)
+
+    # Impresión de lo valores asignados en las matrices
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+    print('\nMATRIZ B: ')
+    for fila in Matriz_B:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Resta de las matrices
+    def restamatriz(A, B):
+        if len(A) == len(B) and len(A[0]) == len(B[0]):
+            for k in range(len(A)):
+                C.append([])
+                for f in range(len(A[0])):
+                    C[k].append(A[k][f] - B[k][f])
+            return C
+        else:
+            return None
+
+
+    Matriz_C = restamatriz(Matriz_A, Matriz_B)
+    if Matriz_C is None:
+        print('\nLas matrices no se pueden sumar')
+    else:
+        print('\nLa resta entre la Matriz A y la Matriz B es: ')
+        for fila in Matriz_C:
+            print('[', end='')
+            for elemento in fila:
+                print('{:6.1f}'.format(elemento), end='')
+            print(']')
+
+    print('\nFin de la resta de matrices ')
+
+# Multiplicación entre matrices=========================================================================================
+if opcion == 3:
+    print('\nMULTIPLICACIÓN DE MATRICES')
+    Matriz_A = []
+    Matriz_B = []
+    Matriz_C = []
+    C = []
+
+    # Asignación de valores para las matrices
+    print('\nPARA LA MATRIZ A... ')
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    print('\nPARA LA MATRIZ B... ')
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+    print('\nMATRIZ B: ')
+    for i in range(filas):
+        Matriz_B.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_B[i].append(datos)
+
+    # Impresión de lo valores asignados en las matrices
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+    print('\nMATRIZ B: ')
+    for fila in Matriz_B:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Multiplicación de las matrices
+    def multiplicacionmatriz(A, B):
+        if len(A[0]) == len(B):
+            for f in range(len(A)):
+                C.append([])
+                for e in range(len(B[0])):
+                    C[f].append(0)
+
+            for f in range(len(A)):
+                for e in range(len(B[0])):
+                    for k in range(len(A[0])):
+                        C[f][e] += A[f][k] * B[k][e]
+            return C
+        else:
+            return None
+
+
+    Matriz_C = multiplicacionmatriz(Matriz_A, Matriz_B)
+    if Matriz_C is None:
+        print('\nLas matrices no se pueden multiplicar')
+        print('El número de columnas en la Matriz A debe ser igual al número de filas en la Matriz B')
+    else:
+        print('\nLa multiplicación entre la Matriz A y la Matriz B es: ')
+        for fila in Matriz_C:
+            print('[', end='')
+            for elemento in fila:
+                print('{:6.1f}'.format(elemento), end='')
+            print(']')
+
+    print('\nFin de la multiplicación de matrices ')
+
+# Multiplicación por un escalar=========================================================================================
+if opcion == 4:
+    print('\nMULTIPLICACIÓN POR UN ESCALAR')
+    Matriz_A = []
+    Matriz_Esc = []
+    Matriz_C = []
+    C = []
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+    escalar = float(input('\nIngrese el valor escalar: '))
+
+    # Asignación de valores para las matrices
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    # Asignación del valor escalar a una matriz
+    print('\nESCALAR: \n', escalar)
+    for i in range(filas):
+        Matriz_Esc.append([])
+        for j in range(columnas):
+            datos = escalar
+            Matriz_Esc[i].append(datos)
+
+    # Impresión de lo valores asignados en la matriz
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Multiplicación de la matriz por el escalar
+    def productomatriz(A, B):
+        while len(A) == len(B) and len(A[0]) == len(B[0]):
+            for k in range(len(A)):
+                C.append([])
+                for f in range(len(A[0])):
+                    C[k].append(A[k][f] * B[k][f])
+            return C
+
+
+    Matriz_C = productomatriz(Matriz_A, Matriz_Esc)
+
+    print('\nLa multiplicación de la Matriz A por el escalar', escalar, 'es: ')
+    for fila in Matriz_C:
+        print('[', end='')
+        for elemento in fila:
+            print('{:6.1f}'.format(elemento), end='')
+        print(']')
+
+    print('\nFin de la multiplicación de una matriz por un escalar ')
+
+# Traspuesta de una matriz==============================================================================================
+if opcion == 5:
+    print('\nTRASPUESTA DE UNA MATRIZ')
+    Matriz_A = []
+    C = []
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+
+    # Asignación de valores para la matriz
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    # Impresión de lo valores asignados en la matriz
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:7.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Cálculo de la traspuesta de la matriz
+    def traspuesta(A):
+        for k in range(len(A[0])):
+            C.append([])
+            for f in range(len(A)):
+                C[k].append(A[f][k])
+        return C
+
+
+    traspuesta = traspuesta(Matriz_A)
+
+    print('\nLa traspuesta de la Matriz A es:')
+    for linea in traspuesta:
+        print('[', end='')
+        for elemento in linea:
+            print('{:7.1f}'.format(elemento), end='')
+        print(']')
+
+    print('\nFin del cálculo de la traspuesta de una matriz')
+
+# Determinante de una Matriz============================================================================================
+if opcion == 6:
+    print('\nDETERMINANTE DE UNA MATRIZ')
+    Matriz_A = []
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+    while filas != columnas:
+        print('\nNota: No se puede hallar el determinante de una matriz no cuadrada\n')
+        filas = int(input('Ingrese el número de filas:  '))
+        columnas = int(input('Ingrese el número de columnas:  '))
+    else:
+        orden = filas
+    # Asignación de valores para la matriz
+    print('\nMATRIZ A: ')
+    for i in range(filas):
+        Matriz_A.append([])
+        for j in range(columnas):
+            datos = float(input('Fila {}, Columna {}: '.format(i + 1, j + 1)))
+            Matriz_A[i].append(datos)
+
+    # Impresión de lo valores asignados en la matriz
+    print('\nMATRIZ A: ')
+    for fila in Matriz_A:
+        print('[', end='')
+        for elemento in fila:
+            print('{:7.1f}'.format(elemento), end='')
+        print(']')
+
+
+    # Cálculo de la determinante
+    def gauss(orde):
+        for x in range(orde - 1):
+            for y in range(1, orde - x):
+                if Matriz_A[x][x] != 0:
+                    r = Matriz_A[y + x][x] / Matriz_A[x][x]
+                    for k in range(orde):
+                        Matriz_A[y + x][k] = Matriz_A[y + x][k] - (Matriz_A[x][k] * r)
+
+
+    gauss(orden)
+
+
+    def det(orde):
+        deter = 1
+        for f in range(orde):
+            deter = Matriz_A[f][f] * deter
+            if deter == 0:
+                deter = -deter
+            else:
+                deter = deter
+        print('\nEl determinante de la Matriz A es: ', '{:.2f}'.format(deter))
+
+
+    det(orden)
+
+    print('\nFin del cálculo del determinante de una matriz')
+
+# Inversa de una matriz=================================================================================================
+if opcion == 7:
+    print('\nINVERSA DE UNA MATRIZ')
+    filas = int(input('Ingrese el número de filas: '))
+    columnas = int(input('Ingrese el número de columnas: '))
+
+    while filas != columnas:
+        print('\nNota: No se puede hallar la inversa  de una matriz no cuadrada\n')
+        filas = int(input('Ingrese el número de filas:  '))
+        columnas = int(input('Ingrese el número de columnas:  '))
+    else:
+        n = filas
+    # Ingreso de valores para la Matriz A
+    print('\nMATRIZ A:')
+
+
+    def rM(n):
+        Matriz_A = []
+        for i in range(n):
+            Matriz_A.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                print('Fila', i + 1, ', Columna', j + 1, ':', end='')
+                Matriz_A[i][j] = int(input())
+        # Impresión de valores asignados en la Matriz A
+        print('\nMATRIZ A:')
+        for x in Matriz_A:
+            print(x, end='')
+            print()
+        return Matriz_A
+
+
+    # Cálculo del determinante de la Matriz A
+    def printM(M):
+        for i in M:
+            for j in i:
+                print(j, end='')
+
+
+    def multiM(M, N):
+        r = []
+        for i in range(n):
+            r.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                for k in range(n):
+                    r[i][j] += M[i][k] * N[k][j]
+        return r
+
+
+    def subM(M, N):
+        r = []
+        for i in range(n):
+            r.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                r[i][j] = M[i][j] - N[i][j]
+        return r
+
+
+    def ki(k):
+        r = []
+        for i in range(n):
+            r.append([0] * n)
+        for i in range(n):
+            r[i][i] = k
+        return r
+
+
+    def trzM(M):
+        t = 0
+        for i in range(n):
+            t += M[i][i]
+        return t
+
+
+    def kM(k, M):
+        r = []
+        for i in range(n):
+            r.append([0] * n)
+        for i in range(n):
+            for j in range(n):
+                r[i][j] = k * M[i][j]
+        return r
+
+
+    A = rM(n)
+    Bi = A
+    for i in range(1, n - 1):
+        bi = trzM(Bi) / i
+        Bi = multiM(A, subM(Bi, ki(bi)))
+
+    pro1 = trzM(Bi) / (n - 1)
+    pro2 = multiM(A, subM(Bi, ki(pro1)))
+    determinante = trzM(pro2) / n
+
+    if determinante == 0:
+        print('\nEl determinante de la Matriz A es: ', determinante)
+        print('\nUna matriz con determinante igual a cero, no puede ser inversible')
+    else:
+        if filas % 2 == 0:
+            determinante = -determinante
+            Inversa = kM(1 / -determinante, subM(Bi, ki(pro1)))
+        else:
+            determinante = determinante
+            Inversa = kM(1 / determinante, subM(Bi, ki(pro1)))
+
+        print('\nEl determinante de la Matriz A es: ', determinante)
+
+        print('\nLa inversa de la Matriz A es: ')
+        for fila in Inversa:
+            print('[', end='')
+            for elemento in fila:
+                print('{:8.3f}'.format(elemento), end='')
+            print(']')
+
+    print('\nFin del cálculo de la inversa de una matriz ')
