@@ -1,0 +1,45 @@
+print('\nPROGRAMA DE METODO DE BISECCIÓN')
+
+
+def biseccion(funcion, xi, xf, interaciones, error_r=0.001):
+    # inicializar variables
+    solucion = None
+    contador = 0
+    error_calculado = 101
+    # paso 1 seleccionar x1 y xf de tal manera quefuncion(xi) * funcion(xf) <= 0
+    # Evaluar si la raiz esta dentro del intervalo
+    if funcion(xi) * funcion(xf) <= 0:
+        # paso 2 estimar la raiz xm(solucion) como el punto medio del intervalo definido por xi y xf
+        # calcular la solucion
+        while contador <= interaciones and error_calculado >= error_r:
+            contador = contador + 1
+            solucion = (xi + xf) / 2
+            error_calculado = abs((solucion - xi) / solucion) * 100
+
+            # paso 3 verificar lo siguiente
+            # Verificacion del nuevo intervalo
+            if funcion(xi) * funcion(solucion) >= 0:
+                xi = solucion
+            else:
+                xf = solucion
+            if funcion(xi) * funcion(solucion) == 0:
+                print('la raiz es xm')
+                break
+            # imprimir el resultado
+        print('\nLa solucion aproximada es {:.4f}'.format(solucion))
+        print('Encontrada en {:.0f}'.format(contador) + ' interaciones')
+        print('Con un error relativo de {:.2f}'.format(error_calculado) + '%')
+    else:
+        print('No existe solucion en ese intervalo')
+
+
+print('\nLa forma de escribir una ecuacción polinominal de grado 3 es: ax^3+bx^2+cx+d')
+a = float(input('Digite el valor de a: '))
+b = float(input('Digite el valor de b: '))
+c = float(input('Digite el valor de c: '))
+d = float(input('Digite el valor de d: '))
+Intervalo1 = float(input('Digite el intervalo inferior: '))
+Intervalo2 = float(input('Digite el intervalo superior: '))
+Interacciones = float(input('Digite la cantidad de interacciones: '))
+
+biseccion(lambda x: a * x ** 3 + b * x ** 2 + c * x + d, Intervalo1, Intervalo2, Interacciones)
