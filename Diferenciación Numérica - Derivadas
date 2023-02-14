@@ -1,0 +1,148 @@
+# Diferenciación Numérica - Derivadas
+
+import numpy as np
+from tabulate import tabulate
+from sympy import *
+from sympy.parsing.sympy_parser import parse_expr
+
+########################################################################################################################
+# funcion de entrada f(x)
+print('Programa Derivadas')
+
+x = symbols('x', real=True)
+s = input("Introduzca la expresión a derivar (respecto a x):")
+
+
+def f(x):
+    fx = parse_expr(s, locals())
+    return fx
+
+
+# derivada
+fx = parse_expr(s, locals())
+derivada = diff(fx, x)
+print("La derivada f'(x) es: ", derivada)
+
+derivada2 = diff(derivada, x)
+print("La derivada f''(x) es: ", derivada2)
+
+# punto de inicio x_i
+x0 = float(input('\nIgrese el punto de inicio x_i :'))
+
+# derivada remplazando x
+resultadox = derivada.subs(x, x0)
+print('El resultado reempazando x es:')
+print(resultadox)
+
+# derivada 2 remplazando x
+resultadox2 = derivada2.subs(x, x0)
+print('El resultado reempazando x es:')
+print(resultadox2)
+
+# longitud h
+hv = np.array([0.01, 0.05, 0.5])
+
+
+########################################################################################################################
+
+# Funcion diferenciacion numerica
+
+def df(x0, h, v):
+    dfx = np.zeros([2, 2])  # matriz 2x2
+    x = [x0 - 3 * h, x0 - 2. * h, x0 - h, x0, x0 + h, x0 + 2 * h, x0 + 3 * h]  # vector de la variable independiente
+    i = 3  # posicion de xi
+
+    if v == 1:
+        # formulas de diferencias divididas finitas hacia adelante
+
+        # primera derivada
+        dfx[0, 0] = (f(x[i + 1]) - f(x[i])) / h  # grado 1
+        dfx[1, 0] = (-f(x[i + 2]) + 4 * f(x[i + 1]) - 3 * f(x[i])) / (2 * h)  # grado 2 (mas exacta)
+
+        # segunda derivada
+        dfx[0, 1] = (f(x[i + 2]) - 2 * f(x[i + 1]) + f(x[i])) / (h ** 2)  # grado 1
+        dfx[1, 1] = (-f(x[i + 3]) + 4 * f(x[i + 2]) - 5 * f(x[i + 1]) + 2 * f(x[i])) / (h ** 2)  # grado 2 (mas exacta)
+    elif v == 2:
+        # formulas de diferencias divididas finitas hacia atras
+
+        # primera derivada
+        dfx[0, 0] = (f(x[i]) - f(x[i - 1])) / h  # grado 1
+        dfx[1, 0] = (3 * f(x[i]) - 4 * f(x[i - 1]) + f(x[i - 2])) / (2 * h)  # grado 2 (mas exacta)
+
+        # segunda derivada
+        dfx[0, 1] = (f(x[i]) - 2 * f(x[i - 1]) + f(x[i - 2])) / (h ** 2)
+        dfx[1, 1] = (2 * f(x[i]) - 5 * f(x[i - 1]) + 4 * f(x[i - 2]) - f(x[i - 3])) / (h ** 2)  # grado 2 (mas exacta)
+
+    elif v == 3:
+        # formula diferencias divididas finitas centradas
+
+        # print(x)
+        # primera derivada
+        dfx[0, 0] = (f(x[i + 1]) - f(x[i - 1])) / (2 * h)  # grado 1
+        dfx[1, 0] = (-f(x[i + 2]) + 8 * f(x[i + 1]) - 8 * f(x[i - 1]) + f(x[i - 2])) / (12 * h)  # grado 2 (mas exacta)
+
+        # segunda derivada
+        dfx[0, 1] = (f(x[i + 1]) - 2 * f(x[i]) + f(x[i - 1])) / (h ** 2)
+        dfx[1, 1] = (-f(x[i + 2]) + 16 * f(x[i + 1]) - 30 * f(x[i]) + 16 * f(x[i - 1]) - f(x[i - 2])) / (
+                    12 * (h ** 2))  # grado 2 (mas exacta)
+
+    else:
+        print(
+            'el cuarto argumento de la funcion debe ser 1: para f`(x) hacia adelante, 2: para f`(x) hacia atras o 3 para f`(x): para centrada')
+    return dfx
+
+
+########################################################################################################################
+tabla = np.zeros([2, 5])  # tabla derivadas
+tablaerror = np.zeros([2, 4])  # tabla errores
+
+# solucion analitica
+
+fx1 = resultadox  # f`(x)solucion analitica
+fx2 = resultadox2  # f``(x)solucion analitica
+
+for i in range(len(hv)):  # se recorre el vector de incrementos
+    h = hv[i]  # incremento
+
+    for j in range(3):  # 3 opciones de derivadas
+        v = j + 1  # opcion 1 adelante, opcion 2 atras, 3 central
+
+        dfx = df(x0, h, v)  # llamar funcion diferenciacion numerica
+
+        tabla[0, j + 1] = dfx[1, 0]  # f`x con aproximacion de grado 2
+        tabla[1, j + 1] = dfx[1, 1]  # f``x con aproximacion de grado 2
+
+        tablaerror[0, j + 1] = (dfx[1, 0] - fx1) * 100 / fx1  # error f`x con aproximacion de grado 2
+        tablaerror[1, j + 1] = (dfx[1, 1] - fx2) * 100 / fx2  # error f``x con aproximacion de grado 2
+
+    tabla = tabla.tolist()  # convierte de array a lista para poder agregar string
+
+    # tabla
+    tabla[0][0] = "f'x"
+    tabla[1][0] = "f''x"
+
+    # tabla de solucion analitica para comparacion
+    tabla[0][4] = fx1
+    tabla[1][4] = fx2
+
+    tablaerror = tablaerror.tolist()
+
+    tablaerror[0][0] = "f'x"
+    tablaerror[1][0] = "f''x"
+
+    # print(tabla)
+    # tabla
+    print('h = ' + str(h))
+    print('')
+    print('Tabla Derivadas')
+    print('')
+    print(tabulate(tabla, headers=['derivada', 'hacia adelante', 'hacia atras', 'centrada']))
+    print('')
+    print('tabla de errores')
+    print('')
+    print(tabulate(tablaerror, headers=['derivada', 'hacia adelante', 'hacia atras', 'centrada']))
+    print('')
+    print('')
+    print('')
+    tabla = np.zeros([2, 5])  # se genera una nueva tabla para el proximo ciclo
+    tablaerror = np.zeros([2, 4])  # se genera una nueva tabla para el proximo ciclo
